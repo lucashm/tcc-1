@@ -5,3 +5,5 @@ pandas
 matplotlib
 seaborn
 tweepy
+liac-arff
+scikit-learn
