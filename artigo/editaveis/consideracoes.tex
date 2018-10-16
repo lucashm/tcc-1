@@ -2,6 +2,29 @@
 
 \section{Seleção do Dataset}
 
+O processo de aprendizado de máquina é composto por uma série de etapas, dentre elas temos a seleção de um conjunto de dados (Dataset) que servirá de entrada para a realização do "treinamento" da máquina.
+
+\subsection{Dataset de análise de sentimentos}
+Como protótipo inicial, foi escolhido um dataset provido pelo graduando da Universidade federal da Paraíba, Paulo Emílio. O dataset foi obtido através da API do Twitter, onde tweets contendo um rosto feliz (':)', ':-)') foram classificados como positivos, e tweets com um rosto triste (':(', ':-('), classificados como negativo. Contudo, percebeu-se que muitos comentários positivos estavam "contaminando" o dataset, visto que muitos deles continham conteúdo irônico, que nem sempre indicava uma frase positiva. Desse modo, decidiu-se determinar o sentimento de cada tweet manualmente, até uma quantidade adequada.
+
+\subsection{Dataset de discurso de ódio}
+Um dos grandes desafios deste projeto é encontrar ou constuir um dataset substancial de discurso de ódio em português. O dataset encontrado que mais se aproximava do desejado foi o OffComBR (PELLE, 2017). Ele é composto por mais de 1000 exemplares de texto e classificados com 'yes' para ofensivo, e 'no' para não ofensivo.
+
+\begin{comment}
+## TODO Formatar a referência acima
+
+@inproceedings{Pelle2017,
+title={Offensive Comments in the Brazilian Web: a dataset and baseline results},
+author={Rogers P. de Pelle and Viviane P. Moreira},
+booktitle={6th Brazilian Workshop on Social Network Analysis and Mining (BraSNAM)},
+year={2017},
+note={to appear}
+}
+
+\end{comment}
+
+
+
 
 \section{Filtragem dos dados}
 
@@ -10,4 +33,3 @@
 \subsection{Semi automatização}
 
 \section{Descrição da infraestrutura}
-
