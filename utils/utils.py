@@ -27,6 +27,7 @@ def classify_text(csv):
     if(set(list(df.columns.values)) != set(['text', 'classification'])):
         df.columns = ["text"]
         df['classification'] = 'None'
+        print("entrei")
     counter = 0
     data = {'text': [], 'classification': []}
     print(df.head())
@@ -47,11 +48,11 @@ def classify_text(csv):
         counter +=1
     
     new_df = pd.DataFrame(data=data)
-    new_df.to_csv('./classificated_texts.csv', encoding='utf-8', index=False, mode='a')
+    new_df.to_csv('./classificated_texts.csv', encoding='utf-8', index=False, mode='a', header=False)
     df.drop(df.index[:counter], inplace=True)
     df.to_csv(csv, encoding='utf-8', index=False)
 
-# classify_text('../text-blob/all_tweets.csv')
+classify_text('../text-blob/all_tweets.csv')
 
 
 
@@ -81,14 +82,15 @@ def text_to_stem(csv):
 
     stemmer = nltk.stem.RSLPStemmer()
     for index, row in df.iterrows():
-        split = row['text'].split()
-        split = [stemmer.stem(word) for word in split]
-        row['text'] = ' '.join(split)
+        if type(row['text']) == type('str'):
+            split = row['text'].split()
+            split = [stemmer.stem(word) for word in split]
+            row['text'] = ' '.join(split)
     
     df.to_csv(csv, encoding='utf-8', index=False)
         
 
     
 
-text_to_stem('./classificated_texts.csv')
+# text_to_stem('../text-blob/all_tweets.csv')
 # normalize_text('./classificated_texts.csv')
