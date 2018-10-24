@@ -52,7 +52,7 @@ def classify_text(csv):
     df.drop(df.index[:counter], inplace=True)
     df.to_csv(csv, encoding='utf-8', index=False)
 
-classify_text('../text-blob/all_tweets.csv')
+classify_text('../text-blob/pos_tweets.1.csv')
 
 
 
