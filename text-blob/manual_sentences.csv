@@ -1,0 +1,101 @@
+text,classification
+Eu adoro você,pos
+Eu te adoro,pos
+Você é uma pessoa maravilhosa,pos
+Gosto demais de conversar contigo,pos
+Acho muito divertido ter você por perto,pos
+Estou muito triste,neg
+Esse tipo de coisa me abala muito,neg
+Não acho que isso seja algo legal,neg
+Você não me parece bem,neg
+Eles estavam muito abalados com o ocorrido,neg
+Pizza é bom demais,pos
+Essa noite foi demais,pos
+Que dia agradável amigos,pos
+Que vontade de rever isso,pos
+hahah muito obrigado,pos
+Não aguento mais essa situação,neg
+Fui despedido,neg
+Infelizmente essas coisas acontecem,neg
+Meu amor sumiu,neg
+Vamos morrer gente,neg
+Seu jeito é magnífico,pos
+Magníficamente incrível,pos
+Que belo sorriso você tem,pos
+Hoje está um belo dia,pos
+Você é tão linda quanto essas flores,pos
+Estou morrendo de ódio desse cara,neg
+É melhor você parar de ser idiota assim,neg
+Que cara mais idiota,neg
+Idiotice demais ele ter feito isso,neg
+É muito besteira levar um cara desses a sério,neg
+Você é o amor da minha vida mesmo,pos
+Eu amo estar com meus amigos,pos
+Amar é bom demais gente,pos
+Não tem sentimento melhor do que amar alguém,pos
+Gostei desse vídeo muito interessante,pos
+Não acho que você seja capaz disso,neg
+Odeio essa situação,neg
+As vezes algumas pessoas merecem ser odiadas,neg
+Você é imprestável e eu te odeio,neg
+Ela odeia ter aula cedo,neg
+Ver esse tipo de coisa me deixa tão bem,pos
+Bom demais estar perto das pessoas que gosto,pos
+Você está bem?,pos
+Ela está muito bem consigo mesma,pos
+Esse açaí está muito bom!,pos
+Perdi uma grande chance,neg
+Lidar com uma perda é muito difícil,neg
+Perder alguém é algo que todo mundo tem que lidar,neg
+Ele se perdeu ontem coitado,neg
+Não gosto de perder assim,neg
+Ter amigos é essencial para uma vida melhor,pos
+Alimentação saudável é essencial para se manter um corpo em equilíbrio,pos
+Adoraria ter você por aqui,pos
+É essencial buscar estudos para se tornar um bom profissional,pos
+Ele estudou e chegou aonde está com muito esforço,pos
+Tomara que ele seja uma pessoa muito infeliz,neg
+Que atitudes mais grotescas e infelizes,neg
+Não quero ser infeliz contigo,neg
+Você só me traz infelicidade,neg
+Infeliz! Escória! Gente desse tipo me faz perder as esperanças!,neg
+Ver esse tipo de coisa me dá esperança de um futuro melhor,pos
+Esperança é a chave do sucesso,pos
+Enquanto há vida há esperança,pos
+Sorrir deixa tudo mais bonito,pos
+E que nunca falte a esperança de dias melhores,pos
+De jeito nenhum! Não quero isso pra mim,neg
+Você está sendo muito grosso comigo,neg
+Esse tipo de pessoa costuma ser muito grosso mesmo,neg
+Grosseria não se aprende em casa,neg
+Não quero trabalhar aqui! Esse lugar tem uma aura negativa muito grande,neg
+Esse é um pensamento muito otimista!,pos
+Otimismo é a chave para a resiliência,pos
+Essa série é ótima! Recomendo para todos os meus amigos,pos
+Ótimo ter sua presença com a gente,pos
+Essa comida está ótima! Melhor cozinheiro,pos
+Essa comida está horrível! Pior cozinheiro,neg
+Que atitude horrível! Saia da minha frente,neg
+Ninguém conversa mais comigo! Isso é muito triste,neg
+Queria ter alguém para conversar! Infelizmente ninguém quer fazer isso,neg
+Uma pena essas coisas acontecerem comigo,neg
+Oba! capturei um pokemon! Que dia bom!,pos
+Essa pessoa é maravilhosa demais,pos
+Que maravilha estar aqui com vocês,pos
+Você está maravilhoso! Que incrível!,pos
+Estou aproveitando uma das sete maravilhas do mundo! Impressionante!,pos
+Esse dia está sendo uma merda,neg
+Que merda de relacionamento,neg
+Babacas em todo lugar! Fazem meu dia se tornar um dia muito ruim,neg
+Toda essa situação é muito ruim! Só queria sair disso logo,neg
+Seu gosto musical é horrivel! Só música ruim e de mau gosto,neg
+Ouvir a esta música é demais! Passo a tarde inteira me divertindo,pos
+Me encontrei ao ver você! Estou muito apaixonado,pos
+Acho muito importante me expressar nesses momentos,pos
+Liberdade de expressão é um tópico muito importante,pos
+Quero liberdade! Quero direitos! Quero ser feliz!,pos
+Você não tem direito nenhum aqui! Some!,neg
+Esse tipo de situação não é nem um pouco agradável ou divertido,neg
+Essa pessoa está me fazendo muito mal! Vou parar de tentar,neg
+Pare de desenterrar postagem idiota!,neg
+Você já passou dos limites! Chega disso e dessas suas ideias tortas!,neg
