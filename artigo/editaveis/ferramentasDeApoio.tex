@@ -1,2 +1,34 @@
 \chapter[Ferramentas de apoio]{Ferramentas de apoio}
 
+\subsection{NLTK}
+
+Dado como um conjunto de bibliotecas para processamento de linguagem natural, o NTLK oferece interfaces de processamento para classificação, tokenização, “stemming”, “tagging” e análise. Apesar de ser uma biblioteca originalmente norte-americana (e por consequência focada no inglês), os principais módulos do NLTK contam com suporte para o português, como o stemming e o módulo de stop words.
+
+O módulo de stemming tem como objetivo retirar o sufixo das palavras, de modo que se mantenha apenas o seu radical. Esse método aumenta consideravelmente a chance de palavras sinônimas se corresponderem \cite{marconltk}, melhorando assim a performance geral do analisador de frases. O módulo do stop word também é focado em melhorar a performance, visto que boa parte das frases é constituída por essas palavras. Contudo, retirar estas pode indicar uma perda significativa de semântica. Apesar das suas capacidades, a biblioteca NLTK é considerada muito pesada e lenta em termos de performance, chegando até a ser considerada uma biblioteca apenas para desenvolvimento.
+
+\begin{figure}[!htb]
+    \center{\includegraphics[scale=0.6]
+    {figuras/nltk_example2.png}}
+    \caption{\label{fig:my-label} NLTK aplicando técnicas de stemming e remoção de stop words}
+\end{figure}
+
+\subsection{scikit-learn}
+
+A biblioteca scikit-learn provê algoritmos de aprendizado supervisionado e não-supervisionado através de interfaces pré-definidas. Classes como “Vizinhos próximos” e “Árvore de decisão” são exemplos de algoritmos de aprendizado supervisionado que essa biblioteca fornece. Através delas, é possível abstrair parte do trabalho e delegar o custo de classificação para o algoritmo definido pelo scikit.
+
+Além da classificação, o scikit-learn contém outros módulos, como os de regressão e clusterização. Por se tratar de uma biblioteca para mineração e análise de dados, uma série de pacotes é necessária para o seu funcionamento, como o matplotlib, o numpy e o pandas. Esses pacotes fazem parte de uma “stack” chamada Pydata. Neste projeto, todos os classificadores utilizados e testados foram providos pelo scikit-learn.
+
+A biblioteca do scikit-learn também possui papel fundamental para a aplicação de determinadas técnicas, como:
+
+\begin{itemize}
+    \item \textbf{Pipeline}: uma classe que permite a construção de objetos que compostos por diversos passos e parâmetros variáveis. Nos experimentos realizados neste trabalho, esses passos são as classes responsáveis por extrair os atributos do texto e pelo modelo da classificação.
+    \item \textbf{K-fold cross-validation}: uma técnica que visa eliminar o viés gerado ao realizar a divisão do dataset entre dado de treino e dado de teste. Ela busca solucionar este problema dividindo o dataset em K partes e realizando o experimento proposto K vezes, revezando, em cada iteração, a parte a ser utilizada no teste. Observe a Figura X abaixo.
+    
+    \begin{figure}[!htb]
+        \center{\includegraphics[scale=0.6]
+        {figuras/kfold_example.png}}
+        \caption{\label{fig:my-label} Demonstração visual do K-fold}
+    \end{figure}
+    
+   \item \textbf{GridSearchCV}: uma técnica que realiza uma busca, por meio de “força bruta”, dos hiperparâmetros do modelo de classificação que melhor atendem o problema. Para isso, com o scikit-learn, basta definir um conjunto de parâmetros a serem avaliados e o critério de avaliação do método. O GridSearchCV, então, avalia o desempenho do modelo utilizando todas as possíveis combinações dos parâmetros sugeridos. De acordo com a documentação do scikit-learn, a busca pelos parâmetros é otimizada pelo uso da validação cruzada \cite{scikit-learn}.
+\end{itemize}
