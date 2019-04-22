@@ -6,13 +6,9 @@ Este capítulo destina-se a apresentar a fundamentação teórica realizada por 
 
 \section[Processamento de Linguagem	 Natural]{Processamento de Linguagem Natural}
 
-Segundo Christian Aranha (2007), “o Processamento de Linguagem Natural (PLN) é o campo da ciência que abrange um conjunto de métodos formais para analisar textos e gerar frases em um idioma humano.”
+O Processamento de Linguagem Natural é uma ciência que abranje um conjunto de técnicas e métodos que facilitam a análise e textual por um computador. No atual projeto, técnicas de PLN são aplicadas para extrair as \textit{features} que, por sua vez, serão utilizadas para a realização das classificações. No contexto do aprendizado de máquina, as \textit{features} são as variáveis intrinsecamente presentes nos dados, sendo elas essenciais na identificação de padrões pelo algoritmo.
 
-No atual projeto, técnicas de PLN estarão fortemente presentes durante a etapa de pré-processamento do texto. O objetivo é extrair o máximo de features que consideramos importante para a classificação adequada. Features são termos ou expressões presentes em um dado texto consideradas determinantes para se classificá-lo.
-
-Dependendo do tipo de classificação que se deseja, diferentes técnicas de processamento são utilizadas. Quando se classifica uma frase utilizando análise de sentimento, ou seja, classificando a frase como positiva ou negativa, técnicas de processamento como a POS (\textit{Part Of Speech}) \textit{tagging}, que tem como objetivo identificar suas classes gramaticais, são utilizadas de modo que se melhore a precisão da classificação da frase. Já quando uma frase é classificada como discurso de ódio ou não, técnicas como a \textit{Bag of Words} (saco de palavras) e a \textit{Word Generalisation} (Generalização de palavras) são preferíveis.
-
-As técnicas citadas são utilizadas na etapa de extração de atributos, comumente referida como \textit{Feature Extraction}. É a partir dela que se define quais aspectos do texto são importantes, ou seja, o que o algoritmo de classificação usará. Há diversas formas de se abordar a extração de características de um texto, sendo as principais: \textit{Bag-of-Words}, \textit{n-grams}, \textit{Word2Vec} e TF-IDF.
+As técnicas citadas são utilizadas na etapa de extração de atributos, comumente referida como \textit{Feature Extraction}. É a partir dela que se define quais aspectos do texto servirão de insumo para o classificador. Há diversas formas de se abordar a extração de características de um texto, sendo as principais: \textit{Bag-of-Words}, \textit{n-grams}, \textit{Word2Vec} e TF-IDF.
 
 \subsection{Bag-of-Words}
 
