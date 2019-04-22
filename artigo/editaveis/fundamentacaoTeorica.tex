@@ -15,11 +15,11 @@ As técnicas citadas são utilizadas na etapa de extração de atributos, comume
 O BoW (\textit{Bag-of-Words}) é um modelo de extração de características de texto simples e flexível. Ele se baseia no número de ocorrências de palavras de uma frase. Para isso, cada frase é representada por um vetor com \textit{n} elementos, onde \textit{n} é o número de palavras do vocabulário considerado. Cada posição representa uma palavra e o elemento é o número de ocorrências daquela palavra na frase. Observe os exemplos a seguir:
 
 \begin{samepage}
-(1) \textit{v} =  “o dia está radiante”
+(1) \textit{v} =  “A mochila está leve, então quero a leve”
 
 \nopagebreak
 
-(2) \textit{u} = “que dia é hoje?”
+(2) \textit{u} = “Levei um lache leve na mochila”
 \end{samepage}
 
 Imagine um vetor para cada uma dessas frases. No BoW, eles seriam semelhantes a estes:
@@ -27,23 +27,32 @@ Imagine um vetor para cada uma dessas frases. No BoW, eles seriam semelhantes a 
 \begin{center}
 \begin{table}[htbp]
 \centering
-\begin{tabular}{cccccccc}
- & \textbf{o} & \textbf{dia} & \textbf{está} & \textbf{radiante} & \textbf{que} & \textbf{é} & \textbf{hoje} \\ \hline
-\textbf{\textit{v}} & 1 & 1 & 1 & 1 & 0 & 0 & 0 \\
-\textbf{\textit{u}} & 0 & 1 & 0 & 0 & 1 & 1 & 1 
+\begin{tabular}{ccccccclllll}
+\hline
+ & \textbf{a} & \textbf{mochila} & \textbf{está} & \textbf{leve} & \textbf{então} & \textbf{quero} & \textbf{que} & \textbf{levei} & \textbf{um} & \textbf{lanche} & \textbf{na} \\ \hline
+\textbf{\textit{v}} & 2 & 1 & 1 & 2 & 1 & 1 & 1 & 0 & 0 & 0 & 0 \\
+\textbf{\textit{u}} & 0 & 1 & 0 & 1 & 0 & 0 & 0 & 1 & 1 & 1 & 1
 \end{tabular}
 \caption{Exemplo de \textit{Bag-of-Words}}
 \label{bow}
 \end{table}
 \end{center}
 
-Como é possível observar na Tabela \ref{bow}, com apenas duas pequenas frases, o vocabulário é bastante limitado, apenas sete palavras, porém, o que é mais comum em situações reais são vocabulários absurdamente grandes, o que resulta em vetores igualmente grandes e com quase todos os seus elementos iguais a 0.
+Como é possível observar na Tabela \ref{bow}, com apenas duas pequenas frases, o vocabulário é bastante limitado, apenas 11 palavras, porém, o que é mais comum em situações reais são vocabulários muito maiores, o que pode resultar em vetores igualmente maiores e com quase todos os seus elementos iguais a 0. Na linguagem \textit{Python}, utilizada neste projeto, esses vetores são representados por matrizes esparsas. Observe como a classe \textit{CountVectorizer} trabalha com essas matrizes.
 
-Outro fator que vale ser notado é que a ordem das palavras não são levadas em consideração neste modelo, apenas a existência delas.
+\begin{figure}[!htb]
+    \center{\includegraphics[scale=0.8]
+    {figuras/sparse_matrix_cv.png}}
+    \caption{\label{fig:sparse_matrix_cv} Matriz esparsa}
+\end{figure}
+
+Percebe-se que a palavra "leve" foi utilizada duas vezes na frase \textit{v}, sendo, na primeira, um adjetivo e, na segunda, um verbo. São palavras homônimas, que possuem a mesma grafia, mas significados distintos. Este modelo, porém, desconsidera o papel que as palavras desempenham na frase e a sua estrutura.
 
 \subsection{N-grams}
 
-O modelo \textit{n-grams} é bastante similar ao \textit{Bag-of-Words} no sentido de definir um vetor para a frase e realizar uma contagem de ocorrências. A diferença está na \textit{vetorização}, que se dá por um processo diferente. Ao invés de representar palavras do vocabulário nas posições do vetor, o \textit{n-grams} propõe uma representação por \textit{substrings}  com um número \textit{N} de palavras. Desta forma, este modelo se torna mais adequado para capturar nuances do texto (CITAR: Lundborg, 2017 Master Thesis), onde a ordem das palavras é relevante e não apenas a presença delas. Utilizando as frases do exemplo anterior, observe como os vetores ficariam para \textit{N = 2}.
+O modelo \textit{n-grams}, assim como o \textit{Bag-of-Words}, se baseia em uma contagem de ocorrências. A diferença está na \textit{vetorização}, que se dá por um processo diferente. Ao invés de representar palavras do vocabulário nas posições do vetor, o \textit{n-grams} propõe uma representação por \textit{substrings}  com um número \textit{n} de palavras. Desta forma, este modelo se torna mais adequado para capturar nuances do texto \cite{Lundborg_2017}, onde a ordem das palavras é relevante e não apenas a presença delas. Utilizar este modelo também favorece na identificação de palavras compostas como "primeiro-ministro", "Rio de Janeiro", "Aprendizado de Máquina".
+
+Utilizando as frases do exemplo anterior, observe como os vetores ficariam para \textit{N = 2}.
 
 \begin{samepage}
 (1) “o dia está radiante”
