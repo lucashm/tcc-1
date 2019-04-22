@@ -12,14 +12,14 @@ As técnicas citadas são utilizadas na etapa de extração de atributos, comume
 
 \subsection{Bag-of-Words}
 
-O BoW (\textit{Bag-of-Words}) é um modelo de extração de características de texto bastante flexível, ele descreve o número de ocorrências de palavras de uma frase. Para isso, cada frase é representada por um vetor com n elementos, onde n é o número de palavras do vocabulário. Cada posição representa uma palavra e o elemento é o número de ocorrências daquela palavra na frase. Observe os exemplos a seguir:
+O BoW (\textit{Bag-of-Words}) é um modelo de extração de características de texto simples e flexível. Ele se baseia no número de ocorrências de palavras de uma frase. Para isso, cada frase é representada por um vetor com \textit{n} elementos, onde \textit{n} é o número de palavras do vocabulário considerado. Cada posição representa uma palavra e o elemento é o número de ocorrências daquela palavra na frase. Observe os exemplos a seguir:
 
 \begin{samepage}
-(1) “o dia está radiante”
+(1) \textit{v} =  “o dia está radiante”
 
 \nopagebreak
 
-(2) “que dia é hoje?”
+(2) \textit{u} = “que dia é hoje?”
 \end{samepage}
 
 Imagine um vetor para cada uma dessas frases. No BoW, eles seriam semelhantes a estes:
@@ -27,10 +27,10 @@ Imagine um vetor para cada uma dessas frases. No BoW, eles seriam semelhantes a 
 \begin{center}
 \begin{table}[htbp]
 \centering
-\begin{tabular}{c|ccccccc}
+\begin{tabular}{cccccccc}
  & \textbf{o} & \textbf{dia} & \textbf{está} & \textbf{radiante} & \textbf{que} & \textbf{é} & \textbf{hoje} \\ \hline
-\textbf{Vetor 1} & 1 & 1 & 1 & 1 & 0 & 0 & 0 \\
-\textbf{Vetor 2} & 0 & 1 & 0 & 0 & 1 & 1 & 1 
+\textbf{\textit{v}} & 1 & 1 & 1 & 1 & 0 & 0 & 0 \\
+\textbf{\textit{u}} & 0 & 1 & 0 & 0 & 1 & 1 & 1 
 \end{tabular}
 \caption{Exemplo de \textit{Bag-of-Words}}
 \label{bow}
