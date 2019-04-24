@@ -6,7 +6,8 @@ Este capítulo destina-se a apresentar a fundamentação teórica realizada por 
 
 \section[Processamento de Linguagem	 Natural]{Processamento de Linguagem Natural}
 
-O Processamento de Linguagem Natural é uma ciência que abranje um conjunto de técnicas e métodos que facilitam a análise e textual por um computador. No atual projeto, técnicas de PLN são aplicadas para extrair as \textit{features} que, por sua vez, serão utilizadas para a realização das classificações. No contexto do aprendizado de máquina, as \textit{features} são as variáveis intrinsecamente presentes nos dados, sendo elas essenciais na identificação de padrões pelo algoritmo.
+O Processamento de Linguagem Natural é uma ciência que abranje um conjunto de técnicas e métodos que facilitam a análise e textual por um computador \cite{aranha}. 
+No atual projeto, técnicas de PLN são aplicadas para extrair as \textit{features} que, por sua vez, serão utilizadas para a realização das classificações. No contexto do aprendizado de máquina, as \textit{features} são as variáveis intrinsecamente presentes nos dados, sendo elas essenciais na identificação de padrões pelo algoritmo.
 
 As técnicas citadas são utilizadas na etapa de extração de atributos, comumente referida como \textit{Feature Extraction}. É a partir dela que se define quais aspectos do texto servirão de insumo para o classificador. Há diversas formas de se abordar a extração de características de um texto, sendo as principais: \textit{Bag-of-Words}, \textit{n-grams}, \textit{Word2Vec} e TF-IDF.
 
@@ -15,11 +16,11 @@ As técnicas citadas são utilizadas na etapa de extração de atributos, comume
 O BoW (\textit{Bag-of-Words}) é um modelo de extração de características de texto simples e flexível. Ele se baseia no número de ocorrências de palavras de uma frase. Para isso, cada frase é representada por um vetor com \textit{n} elementos, onde \textit{n} é o número de palavras do vocabulário considerado. Cada posição representa uma palavra e o elemento é o número de ocorrências daquela palavra na frase. Observe os exemplos a seguir:
 
 \begin{samepage}
-(1) \textit{v} =  “A mochila está leve, então quero a leve”
+(1) \textit{u} =  “A mochila está leve, então quero a leve”
 
 \nopagebreak
 
-(2) \textit{u} = “Levei um lache leve na mochila”
+(2) \textit{v} = “Levei um lache leve na mochila”
 \end{samepage}
 
 Imagine um vetor para cada uma dessas frases. No BoW, eles seriam semelhantes a estes:
@@ -30,67 +31,83 @@ Imagine um vetor para cada uma dessas frases. No BoW, eles seriam semelhantes a 
 \begin{tabular}{ccccccclllll}
 \hline
  & \textbf{a} & \textbf{mochila} & \textbf{está} & \textbf{leve} & \textbf{então} & \textbf{quero} & \textbf{que} & \textbf{levei} & \textbf{um} & \textbf{lanche} & \textbf{na} \\ \hline
-\textbf{\textit{v}} & 2 & 1 & 1 & 2 & 1 & 1 & 1 & 0 & 0 & 0 & 0 \\
-\textbf{\textit{u}} & 0 & 1 & 0 & 1 & 0 & 0 & 0 & 1 & 1 & 1 & 1
+\textbf{\textit{u}} & 2 & 1 & 1 & 2 & 1 & 1 & 1 & 0 & 0 & 0 & 0 \\
+\textbf{\textit{v}} & 0 & 1 & 0 & 1 & 0 & 0 & 0 & 1 & 1 & 1 & 1
 \end{tabular}
 \caption{Exemplo de \textit{Bag-of-Words}}
 \label{bow}
 \end{table}
 \end{center}
 
-Como é possível observar na Tabela \ref{bow}, com apenas duas pequenas frases, o vocabulário é bastante limitado, apenas 11 palavras, porém, o que é mais comum em situações reais são vocabulários muito maiores, o que pode resultar em vetores igualmente maiores e com quase todos os seus elementos iguais a 0. Na linguagem \textit{Python}, utilizada neste projeto, esses vetores são representados por matrizes esparsas. Observe como a classe \textit{CountVectorizer} trabalha com essas matrizes.
+Como é possível observar na Tabela \ref{bow}, a palavra "leve" foi utilizada duas vezes na frase \textit{v}, sendo, na primeira, um adjetivo e, na segunda, um verbo. São palavras homônimas, que possuem a mesma grafia, mas significados distintos. Este modelo, porém, desconsidera o papel que as palavras desempenham na frase e a sua estrutura.
 
-\begin{figure}[!htb]
-    \center{\includegraphics[scale=0.8]
-    {figuras/sparse_matrix_cv.png}}
-    \caption{\label{fig:sparse_matrix_cv} Matriz esparsa}
-\end{figure}
+Com apenas duas pequenas frases, o vocabulário é bastante limitado, apenas 11 palavras, porém, o que é mais comum em situações reais são vocabulários muito maiores, o que pode resultar em vetores igualmente maiores e com quase todos os seus elementos iguais a 0. Na linguagem \textit{Python}, utilizada neste projeto, esses vetores são representados por matrizes esparsas. Observe a seguir como a classe \textit{CountVectorizer}, da biblioteca scikit, trabalha com essas matrizes.
 
-Percebe-se que a palavra "leve" foi utilizada duas vezes na frase \textit{v}, sendo, na primeira, um adjetivo e, na segunda, um verbo. São palavras homônimas, que possuem a mesma grafia, mas significados distintos. Este modelo, porém, desconsidera o papel que as palavras desempenham na frase e a sua estrutura.
+\begin{lstlisting}[language=python, caption=Matriz esparsa da classe csr\_matrix, label={lst:csr_matrix}]
+
+>>> from sklearn.feature_extraction.text import CountVectorizer
+>>> corpus = [
+        'A mochila está leve, então quero a leve primeiro',
+        'Levei um lanche leve na mochila',
+    ]
+>>> vectorizer = CountVectorizer()
+>>> X = vectorizer.fit_transform(corpus)
+>>> print(vectorizer.get_feature_names())
+
+['então', 'está', 'lanche', 'leve', 'levei', 'mochila', 'na', 'primeiro', 'quero', 'um']
+
+>>> print(X.toarray())
+
+[[1 1 0 2 0 1 0 1 1 0]
+ [0 0 1 1 1 1 1 0 0 1]]
+ 
+\end{lstlisting}
+
+Note no Código \ref{lst:csr_matrix}, que o \textit{CountVectorizer} aplica o modelo de Bag-of-Words na construção de um objeto do tipo \textit{csr\_matrix}, mas não leva em consideração palavras com apenas um caractere.
 
 \subsection{N-grams}
 
-O modelo \textit{n-grams}, assim como o \textit{Bag-of-Words}, se baseia em uma contagem de ocorrências. A diferença está na \textit{vetorização}, que se dá por um processo diferente. Ao invés de representar palavras do vocabulário nas posições do vetor, o \textit{n-grams} propõe uma representação por \textit{substrings}  com um número \textit{n} de palavras. Desta forma, este modelo se torna mais adequado para capturar nuances do texto \cite{Lundborg_2017}, onde a ordem das palavras é relevante e não apenas a presença delas. Utilizar este modelo também favorece na identificação de palavras compostas como "primeiro-ministro", "Rio de Janeiro", "Aprendizado de Máquina".
+O modelo \textit{n-grams}, assim como o \textit{Bag-of-Words}, se baseia em uma contagem de ocorrências. A diferença está na \textit{vetorização}, que se dá por um processo diferente. Ao invés de representar palavras do vocabulário nas posições do vetor, o \textit{n-grams} propõe uma representação por uma sequência contínua de \textit{n} de palavras. Desta forma, este modelo se torna mais adequado para capturar nuances do texto \cite{Lundborg_2017}, onde a ordem das palavras é relevante e não apenas a presença delas. Utilizar este modelo também favorece na identificação de palavras compostas como "primeiro-ministro", "Rio de Janeiro", "Aprendizado de Máquina".
 
-Utilizando as frases do exemplo anterior, observe como os vetores ficariam para \textit{N = 2}.
+Observe na Tabela \ref{ngrams} como os vetores ficariam para \textit{n} = 2 e note que este modelo é capaz de identificar a presença do \textit{bigrama} "distrito federal" em ambas as frases.
+
 
 \begin{samepage}
-(1) “o dia está radiante”
+(1) \textit{u} = “Eu moro no Distrito Federal”
 
 \nopagebreak
 
-(2) “que dia é hoje?”
+(2) \textit{v} = “O Distrito Federal fica no Centro-Oeste”
 \end{samepage}
 
 \begin{center}
 \begin{table}[htbp]
 \centering
-\begin{tabular}{c|cccccc}
- & \textbf{o dia} & \textbf{dia está} & \textbf{está radiante} & \textbf{que dia} & \textbf{dia é} & \textbf{é hoje} \\ \hline
-\textbf{Vetor 1} & 1 & 1 & 1 & 0 & 0 & 0 \\
-\textbf{Vetor 2} & 0 & 0 & 0 & 1 & 1 & 1
+\begin{tabular}{ccccccllll}
+\hline
+ & \textbf{eu moro} & \textbf{moro no} & \textbf{no distrito} & \textbf{distrito federal} & \textbf{o distrito} & \textbf{federal fica} & \textbf{fica no} & \textbf{no centro} & \textbf{centro oeste} \\ \hline
+\textit{\textbf{u}} & 1 & 1 & 1 & 1 & 0 & 0 & 0 & 0 & 0 \\
+\textit{\textbf{v}} & 0 & 0 & 0 & 1 & 1 & 1 & 1 & 1 & 1
 \end{tabular}
 \caption{Exemplo de \textit{n-grams}}
 \label{ngrams}
 \end{table}
 \end{center}
 
+
+
 \subsection{TF-IDF}
 
-Em algumas situações, apenas avaliar a frequência de termos pode não ser o ideal. A forma com que a língua é estruturada favorece a dominância de uma série de termos dos quais não carregam a em si conteúdo significativo para a realização de classificações (CITAR: Brownlee, Jason).
+Em algumas situações, apenas avaliar a frequência de termos pode não ser o ideal. A forma com que a língua é estruturada favorece a dominância de uma série de termos dos quais não carregam a em si conteúdo significativo para a realização de classificações (CITAR: Brownlee, Jason). A fim de reduzir o grau de relevância desses termos que predominam as linguagem naturais, pode-se utilizar o modelo \textit{TF-IDF} (\textit{Term Frequency-Inverse Document Frequency}).
 
-A fim de reduzir o grau de relevância desses termos que predominam a linguagem naturais, temos o modelo \textit{TF-IDF}, que significa \textit{Term Frequency-Inverse Document Frequency}, onde:
+\begin{equation}
+w_{i,j} = tf_{i,j}\times\log \frac{N}{df_i}
+\end{equation}
 
 \begin{itemize}
 \item \textit{Term Frequency}: Do inglês, significa frequência do termo dentro da frase atual. No caso, termo pode ser uma palavra ou múltiplas, como no modelo N-grams.
 \item \textit{Inverse Document Frequency}: Trata-se de um valor inverso à frequência em que o termo é encontrado nas frases do conjunto de dados como um todo.
 \end{itemize}
-
-Para calcular o \textit{TF-IDF}, utiliza-se a seguinte fórmula:
-
-\begin{equation}
-w_{i,j} = tf_{i,j}\times\log \frac{N}{df_i}
-\end{equation}
 
 Observe que, ao aplicar esta fórmula obtém-se um valor que é mais alto quando o termo for frequente no texto analisado, porém, raro em todos os textos, ou seja, as particularidades de cada texto são acentuadas.
 
