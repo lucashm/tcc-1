@@ -67,10 +67,7 @@ Note no Código \ref{lst:csr_matrix}, que o \textit{CountVectorizer} aplica o mo
 
 \subsection{N-grams}
 
-O modelo \textit{n-grams}, assim como o \textit{Bag-of-Words}, se baseia em uma contagem de ocorrências. A diferença está na \textit{vetorização}, que se dá por um processo diferente. Ao invés de representar palavras do vocabulário nas posições do vetor, o \textit{n-grams} propõe uma representação por uma sequência contínua de \textit{n} de palavras. Desta forma, este modelo se torna mais adequado para capturar nuances do texto \cite{Lundborg_2017}, onde a ordem das palavras é relevante e não apenas a presença delas. Utilizar este modelo também favorece na identificação de palavras compostas como "primeiro-ministro", "Rio de Janeiro", "Aprendizado de Máquina".
-
-Observe na Tabela \ref{ngrams} como os vetores ficariam para \textit{n} = 2 e note que este modelo é capaz de identificar a presença do \textit{bigrama} "distrito federal" em ambas as frases.
-
+O modelo \textit{n-grams}, assim como o \textit{Bag-of-Words}, se baseia em uma contagem de ocorrências. A diferença está na \textit{vetorização}, que se dá por um processo diferente. Ao invés de realizar a contagem por cada palavra, o \textit{n-grams} propõe uma contagem por uma sequência contínua de \textit{n} de palavras. Desta forma, este modelo se torna mais adequado para capturar nuances do texto \cite{Lundborg_2017}, onde a ordem das palavras é relevante e não apenas a presença delas. Utilizar este modelo também favorece na identificação de palavras compostas como "primeiro-ministro", "Rio de Janeiro", "Aprendizado de Máquina".
 
 \begin{samepage}
 (1) \textit{u} = “Eu moro no Distrito Federal”
@@ -83,33 +80,58 @@ Observe na Tabela \ref{ngrams} como os vetores ficariam para \textit{n} = 2 e no
 \begin{center}
 \begin{table}[htbp]
 \centering
-\begin{tabular}{ccccccllll}
+\begin{tabular}{cccccccccc}
 \hline
- & \textbf{eu moro} & \textbf{moro no} & \textbf{no distrito} & \textbf{distrito federal} & \textbf{o distrito} & \textbf{federal fica} & \textbf{fica no} & \textbf{no centro} & \textbf{centro oeste} \\ \hline
+ & \textbf{\begin{tabular}[c]{@{}c@{}}eu\\ moro\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}moro\\ no\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}no\\ distrito\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}distrito\\ federal\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}o\\ distrito\end{tabular}} & \multicolumn{1}{l}{\textbf{\begin{tabular}[c]{@{}l@{}}federal\\ fica\end{tabular}}} & \multicolumn{1}{l}{\textbf{\begin{tabular}[c]{@{}l@{}}fica\\ no\end{tabular}}} & \multicolumn{1}{l}{\textbf{\begin{tabular}[c]{@{}l@{}}no\\ centro\end{tabular}}} & \multicolumn{1}{l}{\textbf{\begin{tabular}[c]{@{}l@{}}centro\\ oeste\end{tabular}}} \\ \hline
 \textit{\textbf{u}} & 1 & 1 & 1 & 1 & 0 & 0 & 0 & 0 & 0 \\
 \textit{\textbf{v}} & 0 & 0 & 0 & 1 & 1 & 1 & 1 & 1 & 1
 \end{tabular}
-\caption{Exemplo de \textit{n-grams}}
+\caption{Exemplo de representação do modelo \textit{n-grams}}
 \label{ngrams}
 \end{table}
 \end{center}
 
+Observe, na Tabela \ref{ngrams}, como os vetores ficariam para \textit{n} = 2 e note que este modelo é capaz de identificar a presença do \textit{bigrama}\footnote{\textit{n-grams} com \textit{n} = 2} "distrito federal" em ambas as frases. Outra situação que favorece o uso de \textit{n-grams} é quando, por exemplo, há a presença das palavras "distrito" e "federal", mas elas estão separadas e com outro sentido, como no exemplo da Tabela \ref{ngrams2}. O modelo BoW não seria capaz de realizar essa distinção e identificaria uma falsa semelhança entre as frases \textit{u} e \textit{v} pela presença de termos que, individualmente são iguais, mas que dentro de seus contextos, possuem outros sentidos.
 
+(3) \textit{z} = “Neste distrito, conheci um policial federal”
+
+\begin{center}
+\begin{table}[htbp]
+\centering
+\begin{tabular}{@{}cccccccccc@{}}
+\toprule
+ & \textbf{\begin{tabular}[c]{@{}c@{}}eu\\ moro\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}moro\\ no\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}no\\ distrito\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}distrito\\ federal\end{tabular}} & \multicolumn{1}{l}{\textbf{\begin{tabular}[c]{@{}l@{}}neste\\ distrito\end{tabular}}} & \multicolumn{1}{l}{\textbf{\begin{tabular}[c]{@{}l@{}}distrito\\ conheci\end{tabular}}} & \multicolumn{1}{l}{\textbf{\begin{tabular}[c]{@{}l@{}}conheci\\ um\end{tabular}}} & \multicolumn{1}{l}{\textbf{\begin{tabular}[c]{@{}l@{}}um\\ policial\end{tabular}}} & \multicolumn{1}{l}{\textbf{\begin{tabular}[c]{@{}l@{}}policial\\ federal\end{tabular}}} \\ \midrule
+\multicolumn{1}{l}{\textit{\textbf{u}}} & 1 & 1 & 1 & 1 & 0 & 0 & 0 & 0 & 0 \\
+\multicolumn{1}{l}{\textit{\textbf{z}}} & 0 & 0 & 0 & 0 & 1 & 1 & 1 & 1 & 1 \\ \bottomrule
+\end{tabular}
+\caption{Exemplo 2 de representação do modelo \textit{n-grams}}
+\label{ngrams2}
+\end{table}
+\end{center}
 
 \subsection{TF-IDF}
 
-Em algumas situações, apenas avaliar a frequência de termos pode não ser o ideal. A forma com que a língua é estruturada favorece a dominância de uma série de termos dos quais não carregam a em si conteúdo significativo para a realização de classificações (CITAR: Brownlee, Jason). A fim de reduzir o grau de relevância desses termos que predominam as linguagem naturais, pode-se utilizar o modelo \textit{TF-IDF} (\textit{Term Frequency-Inverse Document Frequency}).
+Em algumas situações, apenas avaliar a frequência de termos pode não ser o ideal. A forma com que a língua é estruturada favorece a dominância de uma série de termos dos quais não carregam em si conteúdo significativo para a realização de classificações. Estes, que são bastante recorrentes, não são bons indicadores de contexto por aparecerem em muitas frases independentes de suas classes.
+
+A fim de lidar com o grau desbalanceado da relevância desses termos, o modelo TF-IDF\footnote{\textit{Term Frequency - Inverse Document Frequency}} propõe um fator de ponderação ($idf$) para que aqueles que mais aparecem nos documentos tenham uma representatividade menor \cite{Matsubara_Martins_Monard_2003}.
+
+O cálculo do TF-IDF, definido pela Equação \ref{eq:tfidf}, descreve a frequência do termo $t_j$ em dado documento $d_i$ multiplicado pelo fator de ponderação, que varia entre 0 e o $\log{N}$, onde \textit{N} é o número de documentos do conjunto de dados e $d(t_j)$ é o número de documentos onde há a ocorrência do termo pelo menos uma vez.
 
 \begin{equation}
-w_{i,j} = tf_{i,j}\times\log \frac{N}{df_i}
+\label{eq:tfidf}
+tfidf(t_j, d_i) = freq(t_j, d_i)\times\log \frac{N}{d(t_j)}
 \end{equation}
 
-\begin{itemize}
-\item \textit{Term Frequency}: Do inglês, significa frequência do termo dentro da frase atual. No caso, termo pode ser uma palavra ou múltiplas, como no modelo N-grams.
-\item \textit{Inverse Document Frequency}: Trata-se de um valor inverso à frequência em que o termo é encontrado nas frases do conjunto de dados como um todo.
-\end{itemize}
+Ao aplicar a fórmula, o valor do fator de ponderação é igual a 0 quando o termo aparece em todos os documentos, mas quando aparece em apenas um, ele é $\log{N}$. Note também que, o valor do $tfidf$ é favorece a frequência do termo $t_j$ no documento $d_i$ e desfavorece a sua frequência na coleção $d(t_j)$. Em outras palavras, as particularidades de cada documento são acentuadas.
 
-Observe que, ao aplicar esta fórmula obtém-se um valor que é mais alto quando o termo for frequente no texto analisado, porém, raro em todos os textos, ou seja, as particularidades de cada texto são acentuadas.
+É possível também abordar representações alternativas deste modelo. Uma proposta apresentada por \citeauthor{Matsubara_Martins_Monard_2003}, denominada \textit{tflinear}, onde, basicamente, o fator de ponderação logarítmico é substituído por um fator linear que varia entre 0 e 1. Observe na Equação \ref{eq:tflinear}
+
+\begin{equation}
+\label{eq:tflinear}
+tflinear(t_j, d_i) = freq(t_j, d_i)\times \left(1 - \frac{d(t_j)}{N}\right)
+\end{equation}
+
+No atual projeto, o TF-IDF foi utilizado em conjunto com o \textit{n-grams}, ou seja, os termos podem ser compostos por mais de uma palavra. Assim como os hiperparâmetros dos modelos de classificação, o valor de \textit{n} é definido durante a fase experimental, podendo, inclusive assumir vários valores dentro de um intervalo.
 
 \subsection{Limpeza do Texto}
 
