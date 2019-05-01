@@ -67,10 +67,7 @@ Note no Código \ref{lst:csr_matrix}, que o \textit{CountVectorizer} aplica o mo
 
 \subsection{N-grams}
 
-O modelo \textit{n-grams}, assim como o \textit{Bag-of-Words}, se baseia em uma contagem de ocorrências. A diferença está na \textit{vetorização}, que se dá por um processo diferente. Ao invés de representar palavras do vocabulário nas posições do vetor, o \textit{n-grams} propõe uma representação por uma sequência contínua de \textit{n} de palavras. Desta forma, este modelo se torna mais adequado para capturar nuances do texto \cite{Lundborg_2017}, onde a ordem das palavras é relevante e não apenas a presença delas. Utilizar este modelo também favorece na identificação de palavras compostas como "primeiro-ministro", "Rio de Janeiro", "Aprendizado de Máquina".
-
-Observe na Tabela \ref{ngrams} como os vetores ficariam para \textit{n} = 2 e note que este modelo é capaz de identificar a presença do \textit{bigrama} "distrito federal" em ambas as frases.
-
+O modelo \textit{n-grams}, assim como o \textit{Bag-of-Words}, se baseia em uma contagem de ocorrências. A diferença está na \textit{vetorização}, que se dá por um processo diferente. Ao invés de realizar a contagem por cada palavra, o \textit{n-grams} propõe uma contagem por uma sequência contínua de \textit{n} de palavras. Desta forma, este modelo se torna mais adequado para capturar nuances do texto \cite{Lundborg_2017}, onde a ordem das palavras é relevante e não apenas a presença delas. Utilizar este modelo também favorece na identificação de palavras compostas como "primeiro-ministro", "Rio de Janeiro", "Aprendizado de Máquina".
 
 \begin{samepage}
 (1) \textit{u} = “Eu moro no Distrito Federal”
@@ -83,62 +80,93 @@ Observe na Tabela \ref{ngrams} como os vetores ficariam para \textit{n} = 2 e no
 \begin{center}
 \begin{table}[htbp]
 \centering
-\begin{tabular}{ccccccllll}
+\begin{tabular}{cccccccccc}
 \hline
- & \textbf{eu moro} & \textbf{moro no} & \textbf{no distrito} & \textbf{distrito federal} & \textbf{o distrito} & \textbf{federal fica} & \textbf{fica no} & \textbf{no centro} & \textbf{centro oeste} \\ \hline
+ & \textbf{\begin{tabular}[c]{@{}c@{}}eu\\ moro\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}moro\\ no\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}no\\ distrito\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}distrito\\ federal\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}o\\ distrito\end{tabular}} & \multicolumn{1}{l}{\textbf{\begin{tabular}[c]{@{}l@{}}federal\\ fica\end{tabular}}} & \multicolumn{1}{l}{\textbf{\begin{tabular}[c]{@{}l@{}}fica\\ no\end{tabular}}} & \multicolumn{1}{l}{\textbf{\begin{tabular}[c]{@{}l@{}}no\\ centro\end{tabular}}} & \multicolumn{1}{l}{\textbf{\begin{tabular}[c]{@{}l@{}}centro\\ oeste\end{tabular}}} \\ \hline
 \textit{\textbf{u}} & 1 & 1 & 1 & 1 & 0 & 0 & 0 & 0 & 0 \\
 \textit{\textbf{v}} & 0 & 0 & 0 & 1 & 1 & 1 & 1 & 1 & 1
 \end{tabular}
-\caption{Exemplo de \textit{n-grams}}
+\caption{Exemplo de representação do modelo \textit{n-grams}}
 \label{ngrams}
 \end{table}
 \end{center}
 
+Observe, na Tabela \ref{ngrams}, como os vetores ficariam para \textit{n} = 2 e note que este modelo é capaz de identificar a presença do \textit{bigrama}\footnote{\textit{n-grams} com \textit{n} = 2} "distrito federal" em ambas as frases. Outra situação que favorece o uso de \textit{n-grams} é quando, por exemplo, há a presença das palavras "distrito" e "federal", mas elas estão separadas e com outro sentido, como na frase \textit{z} abaixo. O modelo BoW não seria capaz de realizar essa distinção e identificaria uma falsa semelhança entre as frases \textit{u} e \textit{z} pela presença de termos que, individualmente são iguais, mas que dentro de seus contextos, possuem outros sentidos.
 
+(3) \textit{z} = “Neste distrito, conheci um policial federal”
+
+\begin{center}
+\begin{table}[htbp]
+\centering
+\begin{tabular}{@{}cccccccccc@{}}
+\toprule
+ & \textbf{\begin{tabular}[c]{@{}c@{}}eu\\ moro\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}moro\\ no\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}no\\ distrito\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}distrito\\ federal\end{tabular}} & \multicolumn{1}{l}{\textbf{\begin{tabular}[c]{@{}l@{}}neste\\ distrito\end{tabular}}} & \multicolumn{1}{l}{\textbf{\begin{tabular}[c]{@{}l@{}}distrito\\ conheci\end{tabular}}} & \multicolumn{1}{l}{\textbf{\begin{tabular}[c]{@{}l@{}}conheci\\ um\end{tabular}}} & \multicolumn{1}{l}{\textbf{\begin{tabular}[c]{@{}l@{}}um\\ policial\end{tabular}}} & \multicolumn{1}{l}{\textbf{\begin{tabular}[c]{@{}l@{}}policial\\ federal\end{tabular}}} \\ \midrule
+\multicolumn{1}{l}{\textit{\textbf{u}}} & 1 & 1 & 1 & 1 & 0 & 0 & 0 & 0 & 0 \\
+\multicolumn{1}{l}{\textit{\textbf{z}}} & 0 & 0 & 0 & 0 & 1 & 1 & 1 & 1 & 1 \\ \bottomrule
+\end{tabular}
+\caption{Exemplo 2 de representação do modelo \textit{n-grams}}
+\label{ngrams2}
+\end{table}
+\end{center}
 
 \subsection{TF-IDF}
 
-Em algumas situações, apenas avaliar a frequência de termos pode não ser o ideal. A forma com que a língua é estruturada favorece a dominância de uma série de termos dos quais não carregam a em si conteúdo significativo para a realização de classificações (CITAR: Brownlee, Jason). A fim de reduzir o grau de relevância desses termos que predominam as linguagem naturais, pode-se utilizar o modelo \textit{TF-IDF} (\textit{Term Frequency-Inverse Document Frequency}).
+Em algumas situações, apenas avaliar a frequência de termos pode não ser o ideal. A forma com que a língua é estruturada favorece a dominância de uma série de termos dos quais não carregam em si conteúdo significativo para a realização de classificações. Estes, que são bastante recorrentes, não são bons indicadores de contexto por aparecerem em muitas frases independentes de suas classes.
+
+A fim de lidar com o grau desbalanceado da relevância desses termos, o modelo TF-IDF\footnote{\textit{Term Frequency - Inverse Document Frequency}} propõe um fator de ponderação ($idf$) para que aqueles que mais aparecem nos documentos tenham uma representatividade menor \cite{Matsubara_Martins_Monard_2003}.
+
+O cálculo do TF-IDF, definido pela Equação \ref{eq:tfidf}, descreve a frequência do termo $t_j$ em dado documento $d_i$ multiplicado pelo fator de ponderação, que varia entre 0 e o $\log{N}$, onde \textit{N} é o número de documentos do conjunto de dados e $d(t_j)$ é o número de documentos onde há a ocorrência do termo pelo menos uma vez.
 
 \begin{equation}
-w_{i,j} = tf_{i,j}\times\log \frac{N}{df_i}
+\label{eq:tfidf}
+tfidf(t_j, d_i) = freq(t_j, d_i)\times\log \frac{N}{d(t_j)}
 \end{equation}
 
-\begin{itemize}
-\item \textit{Term Frequency}: Do inglês, significa frequência do termo dentro da frase atual. No caso, termo pode ser uma palavra ou múltiplas, como no modelo N-grams.
-\item \textit{Inverse Document Frequency}: Trata-se de um valor inverso à frequência em que o termo é encontrado nas frases do conjunto de dados como um todo.
-\end{itemize}
+Ao aplicar a fórmula, o valor do fator de ponderação é igual a 0 quando o termo aparece em todos os documentos, mas quando aparece em apenas um, ele é $\log{N}$. Note também que, o valor do $tfidf$ é favorece a frequência do termo $t_j$ no documento $d_i$ e desfavorece a sua frequência na coleção $d(t_j)$. Em outras palavras, as particularidades de cada documento são acentuadas.
 
-Observe que, ao aplicar esta fórmula obtém-se um valor que é mais alto quando o termo for frequente no texto analisado, porém, raro em todos os textos, ou seja, as particularidades de cada texto são acentuadas.
+É possível também abordar representações alternativas deste modelo. Uma proposta apresentada por \citeauthor{Matsubara_Martins_Monard_2003}, denominada \textit{tflinear}, onde, basicamente, o fator de ponderação logarítmico é substituído por um fator linear que varia entre 0 e 1. Observe na Equação \ref{eq:tflinear}
+
+\begin{equation}
+\label{eq:tflinear}
+tflinear(t_j, d_i) = freq(t_j, d_i)\times \left(1 - \frac{d(t_j)}{N}\right)
+\end{equation}
+
+No atual projeto, o TF-IDF foi utilizado em conjunto com o \textit{n-grams}, ou seja, os termos podem ser compostos por mais de uma palavra. Assim como os hiperparâmetros dos modelos de classificação, o valor de \textit{n} é definido durante a fase experimental, podendo, inclusive assumir vários valores dentro de um intervalo.
 
 \subsection{Limpeza do Texto}
 
-Parte do pré-processamento do texto é a realização de sua limpeza. Para tal, foram utilizadas duas técnicas:
+Parte do pré-processamento do texto consiste na eliminação de informações desnecessárias para a classificação. Para tal, foram aplicadas algumas técnicas como remoção de acentuação, os caracteres maiúsculos foram transformados em minúsculos, além das detalhadas a seguir:
 
 \begin{itemize}
-\item \textbf{\textit{Stemização}}: Do inglês, \textit{stemming}, refere-se ao processo de reduzir as palavras à uma forma primitiva, como um radical. Este processo visa garantir que pequenas variações de uma mesma palavra seja interpretada pelo computador como uma palavra só. Dessa forma, além de economizar recursos, pois o computador precisará processar um vetor de menor dimensão, também beneficiará o classificador considerar que palavras com pequenas variações de gênero ou número carregam em si o mesmo sentido. Como em “\textit{historiador}” e “\textit{historiadoras}”, que ficariam apenas “\textit{histori}”, por exemplo.
+\item \textbf{\textit{Stemização}}: Do inglês, \textit{stemming}, refere-se ao processo de reduzir as palavras à uma forma primitiva, como um radical. Este processo visa garantir que variações de uma mesma palavra sejam interpretadas pelo computador como uma palavra só. Dessa forma, o conjunto de palavras do vocabulário é reduzido, o que resulta numa economia de recursos. Outra vantagem é a generalização de algumas variações das palavras, como em gênero e número, identificando que elas carregam em si o mesmo sentido. Os termos “\textit{historiador}” e “\textit{historiadoras}” seriam reduzidas a um mesmo radical “\textit{histori}”, por exemplo.
 
-\item \textbf{Remoção das \textit{stop words}}: As \textit{stop words} (palavras vazias) são palavras que agregam pouco ou nenhum valor semântico que deva ser levado em consideração pelo classificador. Geralmente, são as palavras mais comuns da língua, incluindo artigos, preposições, verbos de ligação, entre outras. Não existe um conjunto bem definido de quais palavras devem ser classificadas como palavras vazias, e, naturalmente, esse conjunto depende do idioma em questão. Para o atual projeto, foi utilizado o conjunto em português do \textbf{NLTK}.
+\item \textbf{Remoção das \textit{stop words}}: As \textit{stop words} (palavras vazias) são palavras que agregam pouco ou nenhum valor semântico que deva ser levado em consideração pelo classificador. Geralmente, são as palavras mais comuns da língua, incluindo artigos, preposições, verbos de ligação, entre outras. Não existe um conjunto bem definido de quais palavras devem ser classificadas como palavras vazias, e, naturalmente, esse conjunto depende do idioma em questão. Em alguns casos, termos recorrentes do contexto, como jargões e gírias, também podem ser inclusos. Para o atual projeto, foi utilizado o conjunto de \textit{stopwords} em português do \textbf{NLTK}.
 \end{itemize}
 
 \section{Aprendizado de máquina}
 
-Visando a construção de um classificador textual que seja capaz de identificar pequenos textos que caracterizam discurso de ódio e facilitar o trabalho de moderação de comentários, a aprendizagem de máquina se apresenta como uma possível solução. Aprendizado de máquina pode ser definido como uma forma de Inteligência Artificial (IA) que permite que um sistema aprenda através de dados ao invés de uma programação explícita. \cite{mlfordummyes:2018}
+Aprendizado de máquina (AM) pode ser definido como uma forma de Inteligência Artificial (IA) que permite que um sistema aprenda através de dados ao invés de uma programação explícita \cite{mlfordummyes:2018}. No início dos anos 90, a abordagem do AM para a classificação textual começou a ganhar popularidade e, eventualmente, tornou-se a técnica dominante para tal, pelo menos para a comunidade de pesquisadores \cite{Sebastiani_2002}.
 
-Os primeiros passos na área do Aprendizado de Máquina aconteceram em 1943, quando, ao tentar explicar como o cérebro funciona, um neurofisiologista e um matemático construíram, utilizando circuitos elétricos, a primeira rede neural \cite{nnhistory}. No contexto da processamento de linguagem natural, suas aplicações são diversas, como: predição de palavras (como em teclados de smartphones), chatbots e classificação de textos. Esta última, pode ser definida como o objetivo principal deste trabalho.
-No atual contexto, ao utilizar do aprendizado de máquina para a classificação de textos, podemos automatizar e evoluir um modelo, de modo a tornar a intervenção humana seja mínima ou nula no processo de moderação de comentários.
-
-\section{Classificação}
-
-Os modelos de Aprendizado de Máquina costumam ser divididos em 2 tipos: Supervisionado, do qual um conjunto de dados previamente rotulado serve de insumo, o modelo analisa estes dados e tem como objetivo prever futuros rótulos para novos dados, e o Não-Supervisionado, onde o modelo busca encontrar padrões ou estruturas intrínsecas nos dados de treino \cite{mwmachinelearning}. Observe a imagem abaixo.
+Os modelos de Aprendizado de Máquina costumam ser divididos em 2 tipos: Supervisionado, do qual um conjunto de observações previamente rotuladas serve de insumo, o modelo tem como objetivo definir rótulos para novas observações, e o Não-Supervisionado, onde o modelo busca encontrar padrões ou estruturas intrínsecas nos dados de treino \cite{mwmachinelearning}. Observe a Figura \ref{fig:ml_types}.
 
 \begin{figure}[!htb]
     \center{\includegraphics[width=\textwidth]
     {figuras/ml_techniques.png}}
-    \caption{\label{fig:my-label} Diagrama sobre tipos de aprendizado de máquina}
+    \caption{Diagrama sobre tipos de aprendizado de máquina}
+    \label{fig:ml_types}
 \end{figure}
 
-A escolha de qual tipo de AM deve ser utilizado depende da natureza do problema que está sendo abordado e dos dados disponíveis. No atual trabalho, serão utilizados modelos de classificação, que são do tipo de Aprendizado Supervisionado. Estes modelos estão detalhados a seguir.
+A escolha de qual tipo de AM deve ser utilizado depende da natureza do problema que está sendo abordado e dos dados disponíveis. No atual trabalho, serão utilizados modelos de classificação, que são do tipo de Aprendizado Supervisionado. Estes modelos estão detalhados na seção \ref{Classificação}.
+
+
+\section{Classificação}
+\label{Classificação}
+
+A classificação textual é a tarefa de atribuir um valor \textit{booleano} para cada par de observação e classe $(d_i, c_i)$. O valor é dado como \textbf{verdadeiro} se a observação $d_i$ for atribuída à classe $c_i$, caso contrário, \textbf{falso}. Existem diferentes tipos de classificações, que variam de acordo com a situação. Por exemplo, quando uma observação pode ser atribuída à apenas uma classe, ela é apelidada de \textit{sigle-label}, caso contrário, \textit{multi-label}. Um tipo caso especial de \textit{sigle-label} é a classificação binária, quando a observação deve, obrigatoriamente, ser atribuída à uma classe ou à sua classe complementar \cite{Sebastiani_2002}.
+
+O atual trabalho contempla uma classificação binária, sendo as classes \textbf{C0}, que representa um \textbf{discurso normal}, e \textbf{C1}, representando \textbf{discurso de ódio ou linguagem inapropriada}.
+
+Independente do modelo de AM, é necessário utilizar um conjunto de dados para que as classificações sejam realizadas. Os dados de treino são traduzidos em propriedades qualitativas ou quantitativas, as \textit{features}. Múltiplas \textit{features} são combinadas em um vetor e utilizadas como informação de entrada para o algoritmo com a sua classe correspondente \cite{Lundborg_2017}. Neste projeto, diversos de modelos de classificação são utilizados. Nas subseções deste capítulo, a descrição de cada um deles.
 
 \subsection{Support Vector Machines}
 
