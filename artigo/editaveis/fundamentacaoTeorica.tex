@@ -91,7 +91,7 @@ O modelo \textit{n-grams}, assim como o \textit{Bag-of-Words}, se baseia em uma 
 \end{table}
 \end{center}
 
-Observe, na Tabela \ref{ngrams}, como os vetores ficariam para \textit{n} = 2 e note que este modelo é capaz de identificar a presença do \textit{bigrama}\footnote{\textit{n-grams} com \textit{n} = 2} "distrito federal" em ambas as frases. Outra situação que favorece o uso de \textit{n-grams} é quando, por exemplo, há a presença das palavras "distrito" e "federal", mas elas estão separadas e com outro sentido, como no exemplo da Tabela \ref{ngrams2}. O modelo BoW não seria capaz de realizar essa distinção e identificaria uma falsa semelhança entre as frases \textit{u} e \textit{v} pela presença de termos que, individualmente são iguais, mas que dentro de seus contextos, possuem outros sentidos.
+Observe, na Tabela \ref{ngrams}, como os vetores ficariam para \textit{n} = 2 e note que este modelo é capaz de identificar a presença do \textit{bigrama}\footnote{\textit{n-grams} com \textit{n} = 2} "distrito federal" em ambas as frases. Outra situação que favorece o uso de \textit{n-grams} é quando, por exemplo, há a presença das palavras "distrito" e "federal", mas elas estão separadas e com outro sentido, como na frase \textit{z} abaixo. O modelo BoW não seria capaz de realizar essa distinção e identificaria uma falsa semelhança entre as frases \textit{u} e \textit{z} pela presença de termos que, individualmente são iguais, mas que dentro de seus contextos, possuem outros sentidos.
 
 (3) \textit{z} = “Neste distrito, conheci um policial federal”
 
@@ -135,32 +135,38 @@ No atual projeto, o TF-IDF foi utilizado em conjunto com o \textit{n-grams}, ou 
 
 \subsection{Limpeza do Texto}
 
-Parte do pré-processamento do texto é a realização de sua limpeza. Para tal, foram utilizadas duas técnicas:
+Parte do pré-processamento do texto consiste na eliminação de informações desnecessárias para a classificação. Para tal, foram aplicadas algumas técnicas como remoção de acentuação, os caracteres maiúsculos foram transformados em minúsculos, além das detalhadas a seguir:
 
 \begin{itemize}
-\item \textbf{\textit{Stemização}}: Do inglês, \textit{stemming}, refere-se ao processo de reduzir as palavras à uma forma primitiva, como um radical. Este processo visa garantir que pequenas variações de uma mesma palavra seja interpretada pelo computador como uma palavra só. Dessa forma, além de economizar recursos, pois o computador precisará processar um vetor de menor dimensão, também beneficiará o classificador considerar que palavras com pequenas variações de gênero ou número carregam em si o mesmo sentido. Como em “\textit{historiador}” e “\textit{historiadoras}”, que ficariam apenas “\textit{histori}”, por exemplo.
+\item \textbf{\textit{Stemização}}: Do inglês, \textit{stemming}, refere-se ao processo de reduzir as palavras à uma forma primitiva, como um radical. Este processo visa garantir que variações de uma mesma palavra sejam interpretadas pelo computador como uma palavra só. Dessa forma, o conjunto de palavras do vocabulário é reduzido, o que resulta numa economia de recursos. Outra vantagem é a generalização de algumas variações das palavras, como em gênero e número, identificando que elas carregam em si o mesmo sentido. Os termos “\textit{historiador}” e “\textit{historiadoras}” seriam reduzidas a um mesmo radical “\textit{histori}”, por exemplo.
 
-\item \textbf{Remoção das \textit{stop words}}: As \textit{stop words} (palavras vazias) são palavras que agregam pouco ou nenhum valor semântico que deva ser levado em consideração pelo classificador. Geralmente, são as palavras mais comuns da língua, incluindo artigos, preposições, verbos de ligação, entre outras. Não existe um conjunto bem definido de quais palavras devem ser classificadas como palavras vazias, e, naturalmente, esse conjunto depende do idioma em questão. Para o atual projeto, foi utilizado o conjunto em português do \textbf{NLTK}.
+\item \textbf{Remoção das \textit{stop words}}: As \textit{stop words} (palavras vazias) são palavras que agregam pouco ou nenhum valor semântico que deva ser levado em consideração pelo classificador. Geralmente, são as palavras mais comuns da língua, incluindo artigos, preposições, verbos de ligação, entre outras. Não existe um conjunto bem definido de quais palavras devem ser classificadas como palavras vazias, e, naturalmente, esse conjunto depende do idioma em questão. Em alguns casos, termos recorrentes do contexto, como jargões e gírias, também podem ser inclusos. Para o atual projeto, foi utilizado o conjunto de \textit{stopwords} em português do \textbf{NLTK}.
 \end{itemize}
 
 \section{Aprendizado de máquina}
 
-Visando a construção de um classificador textual que seja capaz de identificar pequenos textos que caracterizam discurso de ódio e facilitar o trabalho de moderação de comentários, a aprendizagem de máquina se apresenta como uma possível solução. Aprendizado de máquina pode ser definido como uma forma de Inteligência Artificial (IA) que permite que um sistema aprenda através de dados ao invés de uma programação explícita. \cite{mlfordummyes:2018}
+Aprendizado de máquina (AM) pode ser definido como uma forma de Inteligência Artificial (IA) que permite que um sistema aprenda através de dados ao invés de uma programação explícita \cite{mlfordummyes:2018}. No início dos anos 90, a abordagem do AM para a classificação textual começou a ganhar popularidade e, eventualmente, tornou-se a técnica dominante para tal, pelo menos para a comunidade de pesquisadores \cite{Sebastiani_2002}.
 
-Os primeiros passos na área do Aprendizado de Máquina aconteceram em 1943, quando, ao tentar explicar como o cérebro funciona, um neurofisiologista e um matemático construíram, utilizando circuitos elétricos, a primeira rede neural \cite{nnhistory}. No contexto da processamento de linguagem natural, suas aplicações são diversas, como: predição de palavras (como em teclados de smartphones), chatbots e classificação de textos. Esta última, pode ser definida como o objetivo principal deste trabalho.
-No atual contexto, ao utilizar do aprendizado de máquina para a classificação de textos, podemos automatizar e evoluir um modelo, de modo a tornar a intervenção humana seja mínima ou nula no processo de moderação de comentários.
-
-\section{Classificação}
-
-Os modelos de Aprendizado de Máquina costumam ser divididos em 2 tipos: Supervisionado, do qual um conjunto de dados previamente rotulado serve de insumo, o modelo analisa estes dados e tem como objetivo prever futuros rótulos para novos dados, e o Não-Supervisionado, onde o modelo busca encontrar padrões ou estruturas intrínsecas nos dados de treino \cite{mwmachinelearning}. Observe a imagem abaixo.
+Os modelos de Aprendizado de Máquina costumam ser divididos em 2 tipos: Supervisionado, do qual um conjunto de observações previamente rotuladas serve de insumo, o modelo tem como objetivo definir rótulos para novas observações, e o Não-Supervisionado, onde o modelo busca encontrar padrões ou estruturas intrínsecas nos dados de treino \cite{mwmachinelearning}. Observe a Figura \ref{fig:ml_types}.
 
 \begin{figure}[!htb]
     \center{\includegraphics[width=\textwidth]
     {figuras/ml_techniques.png}}
-    \caption{\label{fig:my-label} Diagrama sobre tipos de aprendizado de máquina}
+    \caption{Diagrama sobre tipos de aprendizado de máquina}
+    \label{fig:ml_types}
 \end{figure}
 
-A escolha de qual tipo de AM deve ser utilizado depende da natureza do problema que está sendo abordado e dos dados disponíveis. No atual trabalho, serão utilizados modelos de classificação, que são do tipo de Aprendizado Supervisionado. Estes modelos estão detalhados a seguir.
+A escolha de qual tipo de AM deve ser utilizado depende da natureza do problema que está sendo abordado e dos dados disponíveis. No atual trabalho, serão utilizados modelos de classificação, que são do tipo de Aprendizado Supervisionado. Estes modelos estão detalhados na seção \ref{Classificação}.
+
+
+\section{Classificação}
+\label{Classificação}
+
+A classificação textual é a tarefa de atribuir um valor \textit{booleano} para cada par de observação e classe $(d_i, c_i)$. O valor é dado como \textbf{verdadeiro} se a observação $d_i$ for atribuída à classe $c_i$, caso contrário, \textbf{falso}. Existem diferentes tipos de classificações, que variam de acordo com a situação. Por exemplo, quando uma observação pode ser atribuída à apenas uma classe, ela é apelidada de \textit{sigle-label}, caso contrário, \textit{multi-label}. Um tipo caso especial de \textit{sigle-label} é a classificação binária, quando a observação deve, obrigatoriamente, ser atribuída à uma classe ou à sua classe complementar \cite{Sebastiani_2002}.
+
+O atual trabalho contempla uma classificação binária, sendo as classes \textbf{C0}, que representa um \textbf{discurso normal}, e \textbf{C1}, representando \textbf{discurso de ódio ou linguagem inapropriada}.
+
+Independente do modelo de AM, é necessário utilizar um conjunto de dados para que as classificações sejam realizadas. Os dados de treino são traduzidos em propriedades qualitativas ou quantitativas, as \textit{features}. Múltiplas \textit{features} são combinadas em um vetor e utilizadas como informação de entrada para o algoritmo com a sua classe correspondente \cite{Lundborg_2017}. Neste projeto, diversos de modelos de classificação são utilizados. Nas subseções deste capítulo, a descrição de cada um deles.
 
 \subsection{Support Vector Machines}
 
