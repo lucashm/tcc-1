@@ -48,3 +48,41 @@ O Jupyter notebook é uma ferramenta que permite não só a execução de códig
 Um dos desafios enfrentados no atual trabalho foi a busca por um conjunto de dados (dataset) categorizados de discurso de ódio que atenda aos requisitos de: ser em português brasileiro, utilizar linguagem coloquial e ser composta por textos pequenos. Estes requisitos foram definidos para que os dados utilizados nos treinos sejam o mais próximo possível dos dados onde ele pode ser aplicado.
 
 O conjunto de dados encontrado que atende aos requisitos do projeto é o OffComBR \cite{Pelle2017}, composto por mais de mil e duzentos comentários, com cerca de 419 considerado discurso de ódio. O dataset em questão aborda diversos assuntos polêmicos, como política, economia, futebol e religião. As frases contém uma média de 72 caracteres, além de um alto grau de coloquialismo e erros de digitação. Racismo, sexismo, homofobia, xenofobia e intolerância religiosa estão entre os critérios adotados na classificação manual realizada pelos seus colaboradores.
+
+\begin{table}[htbp]
+\centering
+\begin{tabular}{cccccccccc}
+\hline
+ & \textbf{\begin{tabular}[c]{@{}c@{}}D. ódio\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}Frase\end{tabular}} &  \\
+ \hline
+\textit{\textbf{0}} & 1 & Votaram no PEZAO agora tomem no CZAO  \\
+\textit{\textbf{1}} & 0 & So conversa mole desde que golpeou o poder nao e Temer  \\
+\textit{\textbf{2}} & 0 & FORA TEMER  ABAIXO A REDEGLOBODECORRUPCAO. \\
+\textit{\textbf{3}} & 1 & VAO BATE PANELASSEUS BURROSBEM FEITO \\
+\textit{\textbf{4}} & 0 & Podiam retirar dos lucros dos bancos
+\end{tabular}
+\caption{Trechos do dataset escolhido}
+\label{ngrams}
+\end{table}
+
+\begin{center}
+\begin{table}[h!]
+\centering
+\begin{tabular}{ |c|c|c| } 
+ \hline
+ Tamanho & 1250 frases \\ 
+ Discurso de ódio & 419 frases  \\ 
+ Média de caracteres. & 72.5  \\
+ Média de palavras & 12.8 \\
+ \hline
+\end{tabular}
+\caption{Informações do dataset}
+\end{table}
+\end{center}
+
+
+\begin{figure}[!htb]
+    \center{\includegraphics[scale=1]
+    {figuras/dataset_info_graphic.png}}
+    \caption{\label{fig:jupyter} Histograma representando a frequência de caracteres do dataset}
+\end{figure}
