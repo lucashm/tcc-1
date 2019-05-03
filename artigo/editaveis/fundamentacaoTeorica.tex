@@ -1,5 +1,3 @@
-\part{Referencial teórico}
-
 \chapter[Fundamentação teórica]{Fundamentação teórica}
 
 Este capítulo destina-se a apresentar a fundamentação teórica realizada por meio de revisões da literatura. Seu objetivo é oferecer um catálogo de conceitos que servirá como base para o entendimento do atual trabalho.
@@ -51,23 +49,23 @@ Com apenas duas pequenas frases, o vocabulário é bastante limitado, apenas 11 
         'Levei um lanche leve na mochila',
     ]
 >>> vectorizer = CountVectorizer()
->>> X = vectorizer.fit_transform(corpus)
+>>> x = vectorizer.fit_transform(corpus)
 >>> print(vectorizer.get_feature_names())
 
 ['então', 'está', 'lanche', 'leve', 'levei', 'mochila', 'na', 'primeiro', 'quero', 'um']
 
->>> print(X.toarray())
+>>> print(x.toarray())
 
 [[1 1 0 2 0 1 0 1 1 0]
  [0 0 1 1 1 1 1 0 0 1]]
  
 \end{lstlisting}
 
-Note no Código \ref{lst:csr_matrix}, que o \textit{CountVectorizer} aplica o modelo de Bag-of-Words na construção de um objeto do tipo \textit{csr\_matrix}, mas não leva em consideração palavras com apenas um caractere.
+Note no Código \ref{lst:csr_matrix}, que o \textit{CountVectorizer} aplica o modelo de \textit{Bag-of-Words} na construção de um objeto do tipo \textit{csr\_matrix}, mas não leva em consideração palavras com apenas um caractere.
 
 \subsection{N-grams}
 
-O modelo \textit{n-grams}, assim como o \textit{Bag-of-Words}, se baseia em uma contagem de ocorrências. A diferença está na \textit{vetorização}, que se dá por um processo diferente. Ao invés de realizar a contagem por cada palavra, o \textit{n-grams} propõe uma contagem por uma sequência contínua de \textit{n} de palavras. Desta forma, este modelo se torna mais adequado para capturar nuances do texto \cite{Lundborg_2017}, onde a ordem das palavras é relevante e não apenas a presença delas. Utilizar este modelo também favorece na identificação de palavras compostas como "primeiro-ministro", "Rio de Janeiro", "Aprendizado de Máquina".
+O modelo \textit{n-grams}, assim como o \textit{Bag-of-Words}, baseia-se em uma contagem de ocorrências. A diferença está na \textit{vetorização}, que se dá por um processo diferente. Ao invés de realizar a contagem por cada palavra, o \textit{n-grams} propõe uma contagem por uma sequência contínua de \textit{n} de palavras. Desta forma, este modelo se torna mais adequado para capturar nuances do texto \cite{Lundborg_2017}, onde a ordem das palavras é relevante e não apenas a presença delas. Utilizar este modelo também favorece na identificação de palavras compostas como "primeiro-ministro", "Rio de Janeiro", "Aprendizado de Máquina".
 
 \begin{samepage}
 (1) \textit{u} = “Eu moro no Distrito Federal”
@@ -87,11 +85,11 @@ O modelo \textit{n-grams}, assim como o \textit{Bag-of-Words}, se baseia em uma 
 \textit{\textbf{v}} & 0 & 0 & 0 & 1 & 1 & 1 & 1 & 1 & 1
 \end{tabular}
 \caption{Exemplo de representação do modelo \textit{n-grams}}
-\label{ngrams}
+\label{tab:ngrams}
 \end{table}
 \end{center}
 
-Observe, na Tabela \ref{ngrams}, como os vetores ficariam para \textit{n} = 2 e note que este modelo é capaz de identificar a presença do \textit{bigrama}\footnote{\textit{n-grams} com \textit{n} = 2} "distrito federal" em ambas as frases. Outra situação que favorece o uso de \textit{n-grams} é quando, por exemplo, há a presença das palavras "distrito" e "federal", mas elas estão separadas e com outro sentido, como na frase \textit{z} abaixo. O modelo BoW não seria capaz de realizar essa distinção e identificaria uma falsa semelhança entre as frases \textit{u} e \textit{z} pela presença de termos que, individualmente são iguais, mas que dentro de seus contextos, possuem outros sentidos.
+Observe, na Tabela \ref{tab:ngrams}, como os vetores ficariam para \textit{n} = 2 e note que este modelo é capaz de identificar a presença do \textit{bigrama}\footnote{\textit{n-grams} com \textit{n} = 2} "distrito federal" em ambas as frases. Outra situação que favorece o uso de \textit{n-grams} é quando, por exemplo, há a presença das palavras "distrito" e "federal", mas elas estão separadas e com outro sentido, como na frase \textit{z} abaixo. O modelo BoW não seria capaz de realizar essa distinção e identificaria uma falsa semelhança entre as frases \textit{u} e \textit{z} pela presença de termos que, individualmente são iguais, mas que dentro de seus contextos, possuem outros sentidos.
 
 (3) \textit{z} = “Neste distrito, conheci um policial federal”
 
@@ -134,6 +132,7 @@ tflinear(t_j, d_i) = freq(t_j, d_i)\times \left(1 - \frac{d(t_j)}{N}\right)
 No atual projeto, o TF-IDF foi utilizado em conjunto com o \textit{n-grams}, ou seja, os termos podem ser compostos por mais de uma palavra. Assim como os hiperparâmetros dos modelos de classificação, o valor de \textit{n} é definido durante a fase experimental, podendo, inclusive assumir vários valores dentro de um intervalo.
 
 \subsection{Limpeza do Texto}
+\label{limpeza}
 
 Parte do pré-processamento do texto consiste na eliminação de informações desnecessárias para a classificação. Para tal, foram aplicadas algumas técnicas como remoção de acentuação, os caracteres maiúsculos foram transformados em minúsculos, além das detalhadas a seguir:
 
@@ -175,7 +174,7 @@ O termo Support Vector Machines engloba um conjunto de modelos que buscam classi
 \begin{figure}[!htb]
     \center{\includegraphics[scale=0.3]
     {figuras/svm_example.png}}
-    \caption{\label{fig:my-label} Diagrama SVM para 2 features}
+    \caption{\label{fig:svm_example} Diagrama SVM para 2 features}
 \end{figure}
 
 O primeiro modelo que utiliza de vetores de suporte é o modelo Gradiente Descendente Estocástico, ou SDG (Stochastic Gradient Descent). Diferente de alguns modelos de vetores de suporte que, para realizar uma atualização de parâmetro necessita computar todas as features, o SDG faz uma iteração mais leve, de modo que apenas um ou um grupo de features é verificado a cada atualização. Desse modo, é possível trabalhar com um número alto de features e/ou exemplos de treino \cite{scikit-learn}.
@@ -187,7 +186,7 @@ Em nosso modelo de treinamento, o SVC foi utilizado em conjunto do TF-IDF, de mo
 \begin{figure}[!htb]
     \center{\includegraphics[scale=0.3]
     {figuras/svm_example2.png}}
-    \caption{\label{fig:my-label} Diagrama representando as mudanças da variável C}
+    \caption{\label{fig:svm_example2} Diagrama representando as mudanças da variável C}
 \end{figure}
 
 \subsection{Decision Tree/Random Forest}
@@ -212,5 +211,5 @@ Em nosso modelo de treino, foi utilizado apenas uma camada oculta, contendo 100 
 \begin{figure}[!htb]
     \center{\includegraphics[scale=0.3]
     {figuras/mlp_example.png}}
-    \caption{\label{fig:my-label} Diagrama MLP,  4 features de entrada, 1 camada oculta, 8 neurônios}
+    \caption{\label{fig:MLP} Diagrama MLP,  4 features de entrada, 1 camada oculta, 8 neurônios}
 \end{figure}
