@@ -25,5 +25,14 @@ cl = Pipeline([('tfidf', TfidfVectorizer(ngram_range=(1, 4))),
 
 cl.fit(X, y)
 
-filename = 'randomforest.sav'
-pickle.dump(cl, open(filename, 'wb'));
+
+cl_filename = 'randomforest.sav'
+df_filename = 'data.sav'
+
+f = open(cl_filename, 'wb')
+pickle.dump(cl, f);
+f.close()
+
+f = open(df_filename, 'wb')
+pickle.dump(df, f);
+f.close()
