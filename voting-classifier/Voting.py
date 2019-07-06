@@ -1,6 +1,7 @@
 from sklearn.pipeline import Pipeline
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.neural_network import MLPClassifier
+from sklearn.naive_bayes import MultinomialNB
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.svm import SVC
 from sklearn.base import BaseEstimator, ClassifierMixin
@@ -32,6 +33,18 @@ class CustomClassifier(BaseEstimator, ClassifierMixin):
             ('clf', RandomForestClassifier(max_depth=None,
                                            min_samples_leaf=1, min_samples_split=2, n_estimators=100)),
         ])
+
+        self.mnb =  Pipeline([
+        ('tfidf',TfidfVectorizer(max_df= 0.6,
+                                 min_df= 5,
+                                 ngram_range= (1, 1),
+                                 smooth_idf= True,
+                                 strip_accents= 'ascii',
+                                 sublinear_tf= True,
+                                 use_idf = True)),
+        ('clf', MultinomialNB(alpha=0.1, fit_prior=False)),
+        ])
+
         self.svc = Pipeline([
             ('tfidf', TfidfVectorizer(max_df=0.6,
                                       min_df=1,
@@ -43,7 +56,7 @@ class CustomClassifier(BaseEstimator, ClassifierMixin):
             ('clf', SVC(C=4, kernel='linear', probability=True, shrinking=True, tol=1)),
         ])
 
-        self.classifiers = [self.rf, self.mlp, self.svc]
+        self.classifiers = [self.rf, self.mnb, self.svc]
 
     def fit(self, X, y=None):
         for classifier in self.classifiers:
@@ -52,13 +65,14 @@ class CustomClassifier(BaseEstimator, ClassifierMixin):
 
     def predict(self, X, y=None):
         try:
+            results = []
+            for classifier in self.classifiers:
+                results.append(classifier.predict(X))
+            
             result = []
-            for item in X:
-                partial_result = 0
-                for classifier in self.classifiers:
-                    if(classifier.predict([item]) == 1):
-                      partial_result = 1
-                result.append(partial_result)
+            for i in range(len(X)):
+              partial_result = results[0][i] or results[1][i] or results[2][i]
+              result.append(partial_result)
 
         except AttributeError:
             raise RuntimeError(
